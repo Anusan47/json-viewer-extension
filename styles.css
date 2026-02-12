@@ -1,0 +1,204 @@
+:root {
+  --bg-color: #f8f9fa;
+  --text-color: #212529;
+  --key-color: #d63384;
+  --string-color: #198754;
+  --number-color: #0d6efd;
+  --boolean-color: #fd7e14;
+  --null-color: #6c757d;
+  --hover-bg: #e9ecef;
+  --border-color: #dee2e6;
+  --font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  /* Default Popup Size */
+  width: 600px;
+  height: 600px;
+}
+
+body.full-screen {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Popup specific layout */
+.popup-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Make inputs bigger in full screen */
+body.full-screen .popup-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+body.full-screen textarea#jsonInput {
+  height: 150px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+textarea#jsonInput {
+  width: 100%;
+  height: 100px;
+  font-family: var(--font-family);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+.search-box {
+  flex-grow: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+button {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button:hover {
+  background-color: #0b5ed7;
+}
+
+button.secondary {
+  background-color: #6c757d;
+}
+
+button.secondary:hover {
+  background-color: #5c636a;
+}
+
+#treeRoot {
+  flex-grow: 1;
+  overflow: auto;
+  font-family: var(--font-family);
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+/* Tree View Styles */
+.json-tree {
+  line-height: 1.5;
+}
+
+.node {
+  margin-left: 20px;
+  position: relative;
+}
+
+.node.root {
+  margin-left: 0;
+}
+
+.expand-icon {
+  cursor: pointer;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="%23212529"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>');
+  transition: transform 0.2s;
+}
+
+.node.expanded>.node-header>.expand-icon {
+  transform: rotate(90deg);
+}
+
+.node.leaf>.node-header>.expand-icon {
+  visibility: hidden;
+}
+
+.node-header {
+  white-space: nowrap;
+}
+
+.key {
+  color: var(--key-color);
+  font-weight: 600;
+}
+
+.separator {
+  margin-right: 5px;
+}
+
+.value.string {
+  color: var(--string-color);
+}
+
+.value.number {
+  color: var(--number-color);
+}
+
+.value.boolean {
+  color: var(--boolean-color);
+}
+
+.value.null {
+  color: var(--null-color);
+  font-style: italic;
+}
+
+.children {
+  display: none;
+}
+
+.node.expanded>.children {
+  display: block;
+}
+
+.meta {
+  color: #adb5bd;
+  font-size: 0.85em;
+  margin-left: 5px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+/* Raw View Trigger */
+.raw-view-toggle {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 10px;
+  opacity: 0.5;
+}

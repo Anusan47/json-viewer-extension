@@ -141,30 +141,8 @@ button.secondary:hover {
   white-space: nowrap;
 }
 
-.key {
-  color: var(--key-color);
-  font-weight: 600;
-}
-
 .separator {
   margin-right: 5px;
-}
-
-.value.string {
-  color: var(--string-color);
-}
-
-.value.number {
-  color: var(--number-color);
-}
-
-.value.boolean {
-  color: var(--boolean-color);
-}
-
-.value.null {
-  color: var(--null-color);
-  font-style: italic;
 }
 
 .children {
@@ -191,6 +169,50 @@ button.secondary:hover {
   margin-bottom: 5px;
 }
 
+/* Code View Styles */
+.json-code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.key {
+  color: #bf2c9f;
+  /* Purple-ish for keys */
+  font-weight: bold;
+}
+
+.string {
+  color: #198754;
+  /* Green for strings */
+}
+
+.number {
+  color: #0d6efd;
+  /* Blue for numbers */
+}
+
+.boolean {
+  color: #fd7e14;
+  /* Orange for booleans */
+}
+
+.null {
+  color: #6c757d;
+  /* Grey for null */
+  font-style: italic;
+}
+
+/* Hide unused controls in the toolbar since we don't have expand/collapse */
+#expandAllBtn,
+#collapseAllBtn,
+#searchInput {
+  display: none !important;
+}
+
 /* Raw View Trigger */
 .raw-view-toggle {
   position: absolute;
@@ -198,4 +220,23 @@ button.secondary:hover {
   right: 5px;
   font-size: 10px;
   opacity: 0.5;
+}
+
+/* Unselectable items for cleaner copy */
+.meta,
+.expand-icon,
+.key,
+.separator {
+  user-select: none;
+}
+
+/* Allow selection of values */
+.value {
+  user-select: text;
+}
+
+/* Hide the root "JSON" label and its separator */
+.node.root>.node-header>.key,
+.node.root>.node-header>.separator {
+  display: none;
 }

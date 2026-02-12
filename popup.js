@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const treeRoot = document.getElementById('treeRoot');
     const expandAllBtn = document.getElementById('expandAllBtn');
     const collapseAllBtn = document.getElementById('collapseAllBtn');
+    const copyBtn = document.getElementById('copyBtn');
 
     const clearBtn = document.getElementById('clearBtn');
     const renderer = new JsonRenderer(treeRoot);
@@ -41,6 +42,30 @@ document.addEventListener('DOMContentLoaded', () => {
         treeRoot.innerHTML = '';
         chrome.storage.local.remove(['lastJson']);
         jsonInput.focus();
+    });
+
+    copyBtn.addEventListener('click', () => {
+        if (renderer.rootData) {
+            const formatted = JSON.stringify(renderer.rootData, null, 2);
+            navigator.clipboard.writeText(formatted).then(() => {
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => copyBtn.textContent = originalText, 1500);
+            });
+        }
+    });
+
+    // Handle Ctrl+A in tree view
+    treeRoot.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+            e.preventDefault();
+            // Select all text within treeRoot
+            const range = document.createRange();
+            range.selectNodeContents(treeRoot);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
     });
 
     fullscreenBtn.addEventListener('click', () => {

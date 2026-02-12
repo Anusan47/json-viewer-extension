@@ -26,6 +26,7 @@
             <button id="fullscreenBtn" class="secondary" title="Open in new tab for full screen view">Open Full
                 Screen</button>
             <button id="clearBtn" class="secondary" style="background-color: #dc3545;">Clear</button>
+            <button id="copyBtn" class="secondary">Copy Formatted</button>
             <input type="text" id="searchInput" class="search-box" placeholder="Search keys or values...">
         </div>
         <div class="controls toolbar">
@@ -33,7 +34,7 @@
             <button id="collapseAllBtn" class="secondary" style="font-size: 12px; padding: 4px 8px;">Collapse
                 All</button>
         </div>
-        <div id="treeRoot"></div>
+        <div id="treeRoot" tabindex="0" style="outline: none;"></div>
     </div>
     <script src="renderer.js"></script>
     <script src="popup.js"></script>

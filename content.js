@@ -26,6 +26,13 @@ const jsonData = isJsonPage();
 if (jsonData) {
     console.log('JSON Viewer: JSON detected, rendering tree view...');
 
+    // Inject CSS
+    const link = document.createElement('link');
+    link.href = chrome.runtime.getURL('styles.css');
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
     document.body.innerHTML = '';
     document.body.style.margin = '0';
     document.body.style.padding = '0';

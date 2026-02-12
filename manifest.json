@@ -28,9 +28,16 @@
       "js": [
         "renderer.js",
         "content.js"
-      ],
-      "css": [
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
         "styles.css"
+      ],
+      "matches": [
+        "<all_urls>"
       ]
     }
   ]

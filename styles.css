@@ -100,12 +100,14 @@ body:not(.json-viewer-body):not(.full-screen) .viewer-container {
   width: auto;
   height: 100%;
   margin: 0;
-  padding: 15px;
+  padding: 15px 20px 15px 15px;
+  /* Extra padding on right to prevent cut-off */
   /* Clean look */
   box-shadow: none;
   border: none;
   background: transparent;
   border-radius: 0;
+  overflow-x: hidden;
 }
 
 /* Toolbar */
@@ -171,6 +173,8 @@ body:not(.json-viewer-body):not(.full-screen) .viewer-container {
   font-family: var(--code-font);
   font-size: 13px;
   resize: vertical;
+  max-height: 50vh;
+  /* Prevent it from taking entire screen */
   outline: none;
   transition: all 0.2s;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
@@ -215,6 +219,8 @@ body:not(.json-viewer-body):not(.full-screen) .viewer-container {
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
   outline: none;
+  min-height: 150px;
+  /* Ensure it doesn't get squashed to zero */
   /* Removed focus outline, relying on subtle inset shadow */
 }
 

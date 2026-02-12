@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
   --bg-gradient: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
   --glass-bg: rgba(255, 255, 255, 0.7);
@@ -17,7 +21,8 @@
   --radius: 16px;
 }
 
-/* Global Reset & Body */
+/* Global Reset */
+/* Body */
 body {
   margin: 0;
   padding: 0;
@@ -29,7 +34,6 @@ body {
   /* Fixed height for full screen app feel */
   overflow: hidden;
   /* Prevent body scroll, everything scrolls inside containers */
-  box-sizing: border-box;
 }
 
 body.full-screen {
@@ -93,7 +97,7 @@ body:not(.json-viewer-body):not(.full-screen) {
 }
 
 body:not(.json-viewer-body):not(.full-screen) .viewer-container {
-  width: 100%;
+  width: auto;
   height: 100%;
   margin: 0;
   padding: 15px;

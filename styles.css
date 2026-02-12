@@ -222,18 +222,22 @@ button.secondary:hover {
   opacity: 0.5;
 }
 
-/* Unselectable items for cleaner copy */
+/* Unselectable items for cleaner copy - Only mainly relevant for old tree view or UI elements */
 .meta,
-.expand-icon,
-.key,
-.separator {
+.expand-icon {
   user-select: none;
 }
 
-/* Allow selection of values */
-.value {
+/* Allow selection of everything in code view */
+.key,
+.string,
+.number,
+.boolean,
+.null,
+.separator {
   user-select: text;
 }
+
 
 /* Hide the root "JSON" label and its separator */
 .node.root>.node-header>.key,

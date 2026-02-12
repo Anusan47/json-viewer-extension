@@ -12,8 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check for fullscreen mode
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('mode') === 'fullscreen') {
+    const isFullscreen = urlParams.get('mode') === 'fullscreen';
+
+    if (isFullscreen) {
         document.body.classList.add('full-screen');
+        fullscreenBtn.textContent = 'Close Full Screen';
     }
 
     // Load last input
@@ -41,7 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     fullscreenBtn.addEventListener('click', () => {
-        chrome.tabs.create({ url: 'popup.html?mode=fullscreen' });
+        if (isFullscreen) {
+            window.close();
+        } else {
+            chrome.tabs.create({ url: 'popup.html?mode=fullscreen' });
+        }
     });
 
     searchInput.addEventListener('input', (e) => {

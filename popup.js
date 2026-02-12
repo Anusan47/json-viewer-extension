@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearBtn = document.getElementById('clearBtn');
     const renderer = new JsonRenderer(treeRoot);
 
+    // Check for fullscreen mode
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('mode') === 'fullscreen') {
+        document.body.classList.add('full-screen');
+    }
+
     // Load last input
     chrome.storage.local.get(['lastJson'], (result) => {
         if (result.lastJson) {
@@ -35,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     fullscreenBtn.addEventListener('click', () => {
-        chrome.tabs.create({ url: 'popup.html' });
+        chrome.tabs.create({ url: 'popup.html?mode=fullscreen' });
     });
 
     searchInput.addEventListener('input', (e) => {

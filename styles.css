@@ -62,11 +62,11 @@ body.full-screen {
 /* Viewer Container (Glassmorphism) */
 .viewer-container {
   /* Full screen mode default */
-  width: 90%;
-  max-width: 1200px;
-  height: 90vh;
-  /* Occupy most of screen */
-  margin: 5vh auto;
+  width: 98%;
+  max-width: none;
+  height: 98vh;
+  /* Occupy almost all of screen */
+  margin: 1vh auto;
   /* Center vertically and horizontally */
 
   background: var(--glass-bg);
@@ -82,25 +82,26 @@ body.full-screen {
 }
 
 /* Popup Specific Overrides */
-/* When in popup (width/height fixed in html) */
-body:not(.json-viewer-body) {
+/* When in popup (width/height fixed in html), but NOT in full screen mode */
+body:not(.json-viewer-body):not(.full-screen) {
   /* Identify popup */
   width: 600px !important;
   height: 600px !important;
-  padding: 10px;
+  padding: 0;
+  /* Full bleed */
   background: var(--bg-gradient);
-  /* Ensure gradient is visible */
 }
 
-body:not(.json-viewer-body) .viewer-container {
+body:not(.json-viewer-body):not(.full-screen) .viewer-container {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 15px;
-  box-shadow: var(--shadow-sm);
-  background: rgba(255, 255, 255, 0.9);
-  /* Slightly more opaque for small window */
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  /* Clean look */
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  border-radius: 0;
 }
 
 /* Toolbar */
@@ -117,8 +118,8 @@ body:not(.json-viewer-body) .viewer-container {
 /* Buttons */
 .btn {
   border: none;
-  border-radius: 50px;
-  /* Pill shape */
+  border-radius: 4px;
+  /* Professional, standard rounded corners */
   padding: 6px 14px;
   font-size: 13px;
   font-weight: 600;
@@ -131,7 +132,7 @@ body:not(.json-viewer-body) .viewer-container {
 }
 
 .btn:active {
-  transform: scale(0.96);
+  transform: scale(0.98);
 }
 
 .btn-primary {
@@ -141,33 +142,34 @@ body:not(.json-viewer-body) .viewer-container {
 
 .btn-primary:hover {
   background: var(--primary-hover);
-  box-shadow: 0 4px 12px rgba(98, 0, 234, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary {
   background: white;
   color: var(--text-color);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .btn-secondary:hover {
   background: #f8f9fa;
-  border-color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 0, 0, 0.3);
 }
 
 .json-input {
   width: 100%;
   height: 100px;
   padding: 12px;
-  border-radius: var(--radius);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  /* Sharp clean edges */
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.8);
   font-family: var(--code-font);
   font-size: 13px;
   resize: vertical;
   outline: none;
   transition: all 0.2s;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
   display: block;
   margin-bottom: 15px;
   box-sizing: border-box;
@@ -178,7 +180,7 @@ body:not(.json-viewer-body) .viewer-container {
 .json-input:focus {
   border-color: var(--primary-color);
   background: white;
-  box-shadow: 0 0 0 3px rgba(98, 0, 234, 0.1);
+  box-shadow: 0 0 0 2px rgba(98, 0, 234, 0.1);
 }
 
 .search-input {

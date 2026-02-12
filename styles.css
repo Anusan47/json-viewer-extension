@@ -1,246 +1,283 @@
 :root {
-  --bg-color: #f8f9fa;
-  --text-color: #212529;
-  --key-color: #d63384;
-  --string-color: #198754;
-  --number-color: #0d6efd;
-  --boolean-color: #fd7e14;
-  --null-color: #6c757d;
-  --hover-bg: #e9ecef;
-  --border-color: #dee2e6;
-  --font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  --bg-gradient: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --text-color: #333;
+  --primary-color: #6200ea;
+  /* Deep Purple */
+  --primary-hover: #3700b3;
+  --secondary-color: #03dac6;
+  /* Teal */
+  --secondary-hover: #018786;
+  --danger-color: #cf6679;
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --code-font: 'Fira Code', 'cascadia code', 'consolas', monospace;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --radius: 16px;
 }
 
+/* Global Reset & Body */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
   margin: 0;
   padding: 0;
-  font-size: 14px;
-}
-
-body.full-screen {
-  width: 100vw;
+  font-family: var(--font-family);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-color);
   height: 100vh;
-}
-
-/* Popup specific layout */
-.popup-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
+  /* Fixed height for full screen app feel */
+  overflow: hidden;
+  /* Prevent body scroll, everything scrolls inside containers */
   box-sizing: border-box;
 }
 
-/* Make inputs bigger in full screen */
-body.full-screen .popup-container {
-  padding: 20px;
+body.full-screen {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  /* Slimmer as requested */
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Viewer Container (Glassmorphism) */
+.viewer-container {
+  /* Full screen mode default */
+  width: 90%;
   max-width: 1200px;
-  margin: 0 auto;
+  height: 90vh;
+  /* Occupy most of screen */
+  margin: 5vh auto;
+  /* Center vertically and horizontally */
+
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
-body.full-screen textarea#jsonInput {
-  height: 150px;
+/* Popup Specific Overrides */
+/* When in popup (width/height fixed in html) */
+body:not(.json-viewer-body) {
+  /* Identify popup */
+  width: 600px !important;
+  height: 600px !important;
+  padding: 10px;
+  background: var(--bg-gradient);
+  /* Ensure gradient is visible */
 }
 
-.controls {
+body:not(.json-viewer-body) .viewer-container {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 15px;
+  box-shadow: var(--shadow-sm);
+  background: rgba(255, 255, 255, 0.9);
+  /* Slightly more opaque for small window */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Toolbar */
+.viewer-toolbar {
   display: flex;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   align-items: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  /* Prevent toolbar from shrinking */
 }
 
-textarea#jsonInput {
+/* Buttons */
+.btn {
+  border: none;
+  border-radius: 50px;
+  /* Pill shape */
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 4px 12px rgba(98, 0, 234, 0.3);
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--text-color);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:hover {
+  background: #f8f9fa;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.json-input {
   width: 100%;
   height: 100px;
-  font-family: var(--font-family);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 8px;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+  font-family: var(--code-font);
+  font-size: 13px;
   resize: vertical;
-  margin-bottom: 10px;
-}
-
-.search-box {
-  flex-grow: 1;
-  padding: 6px 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-}
-
-button {
-  background-color: #0d6efd;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-button:hover {
-  background-color: #0b5ed7;
-}
-
-button.secondary {
-  background-color: #6c757d;
-}
-
-button.secondary:hover {
-  background-color: #5c636a;
-}
-
-#treeRoot {
-  flex-grow: 1;
-  overflow: auto;
-  font-family: var(--font-family);
-  background: white;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 10px;
-}
-
-/* Tree View Styles */
-.json-tree {
-  line-height: 1.5;
-}
-
-.node {
-  margin-left: 20px;
-  position: relative;
-}
-
-.node.root {
-  margin-left: 0;
-}
-
-.expand-icon {
-  cursor: pointer;
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-right: 4px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="%23212529"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>');
-  transition: transform 0.2s;
-}
-
-.node.expanded>.node-header>.expand-icon {
-  transform: rotate(90deg);
-}
-
-.node.leaf>.node-header>.expand-icon {
-  visibility: hidden;
-}
-
-.node-header {
-  white-space: nowrap;
-}
-
-.separator {
-  margin-right: 5px;
-}
-
-.children {
-  display: none;
-}
-
-.node.expanded>.children {
+  outline: none;
+  transition: all 0.2s;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
   display: block;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  /* Ensure padding doesn't affect width */
+  flex-shrink: 0;
 }
 
-.meta {
-  color: #adb5bd;
-  font-size: 0.85em;
-  margin-left: 5px;
+.json-input:focus {
+  border-color: var(--primary-color);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(98, 0, 234, 0.1);
 }
 
-.hidden {
-  display: none !important;
-}
-
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-}
-
-/* Code View Styles */
-.json-code {
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+.search-input {
+  padding: 8px 16px;
+  border-radius: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: white;
+  outline: none;
   font-size: 14px;
-  line-height: 1.5;
+  transition: all 0.2s;
+  flex-grow: 1;
+  max-width: 300px;
+}
+
+.search-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(98, 0, 234, 0.1);
+}
+
+/* Code View / Tree Root */
+.json-tree {
+  flex-grow: 1;
+  background: white;
+  /* Clean white canvas for code */
+  border-radius: 8px;
+  padding: 20px;
+  overflow: auto;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  outline: none;
+  /* Removed focus outline, relying on subtle inset shadow */
+}
+
+.json-tree:focus {
+  border-color: var(--primary-color);
+}
+
+/* Syntax Highlighting */
+.json-code {
+  font-family: var(--code-font);
+  font-size: 14px;
+  line-height: 1.6;
   white-space: pre;
   margin: 0;
-  color: var(--text-color);
+  color: #24292e;
 }
 
 .key {
-  color: #bf2c9f;
-  /* Purple-ish for keys */
-  font-weight: bold;
-}
-
-.string {
-  color: #198754;
-  /* Green for strings */
-}
-
-.number {
-  color: #0d6efd;
-  /* Blue for numbers */
-}
-
-.boolean {
-  color: #fd7e14;
-  /* Orange for booleans */
-}
-
-.null {
-  color: #6c757d;
-  /* Grey for null */
-  font-style: italic;
-}
-
-/* Hide unused controls in the toolbar since we don't have expand/collapse */
-#expandAllBtn,
-#collapseAllBtn,
-#searchInput {
-  display: none !important;
-}
-
-/* Raw View Trigger */
-.raw-view-toggle {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 10px;
-  opacity: 0.5;
-}
-
-/* Unselectable items for cleaner copy - Only mainly relevant for old tree view or UI elements */
-.meta,
-.expand-icon {
-  user-select: none;
-}
-
-/* Allow selection of everything in code view */
-.key,
-.string,
-.number,
-.boolean,
-.null,
-.separator {
+  color: #d73a49;
+  /* Reddish for keys */
+  font-weight: 600;
   user-select: text;
 }
 
+.string {
+  color: #032f62;
+  /* Dark blue for strings */
+  user-select: text;
+}
 
-/* Hide the root "JSON" label and its separator */
-.node.root>.node-header>.key,
-.node.root>.node-header>.separator {
-  display: none;
+.number {
+  color: #005cc5;
+  /* Blue for numbers */
+  user-select: text;
+}
+
+.boolean {
+  color: #22863a;
+  /* Green for booleans */
+  user-select: text;
+}
+
+.null {
+  color: #6a737d;
+  /* Grey for null */
+  font-style: italic;
+  user-select: text;
+}
+
+.separator {
+  color: #586069;
+  user-select: text;
+}
+
+/* Raw JSON Textarea (Hidden by default) */
+.raw-json {
+  width: 100%;
+  height: 100%;
+  border: none;
+  resize: none;
+  font-family: var(--code-font);
+  padding: 20px;
+  box-sizing: border-box;
+  background: white;
+  border-radius: 8px;
+  overflow: auto;
+}
+
+/* Utilities */
+.hidden {
+  display: none !important;
 }

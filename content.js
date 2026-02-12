@@ -34,38 +34,32 @@ if (jsonData) {
     document.head.appendChild(link);
 
     document.body.innerHTML = '';
-    document.body.style.margin = '0';
-    document.body.style.padding = '0';
-    document.body.style.backgroundColor = '#f8f9fa';
+    document.body.className = 'json-viewer-body';
 
     // Container
     const appContainer = document.createElement('div');
     appContainer.id = 'json-viewer-app';
-    appContainer.style.padding = '20px';
-    appContainer.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace';
+    appContainer.className = 'viewer-container';
 
     // Toolbar
     const toolbar = document.createElement('div');
-    toolbar.style.marginBottom = '20px';
-    toolbar.style.display = 'flex';
-    toolbar.style.gap = '10px';
-    toolbar.style.alignItems = 'center';
+    toolbar.className = 'viewer-toolbar';
 
     const rawBtn = document.createElement('button');
     rawBtn.textContent = 'Raw JSON';
-    styleButton(rawBtn);
+    rawBtn.className = 'btn btn-secondary';
 
     const expandBtn = document.createElement('button');
     expandBtn.textContent = 'Expand All';
-    styleButton(expandBtn);
+    expandBtn.className = 'btn btn-secondary hidden'; // Hidden for code view
 
     const collapseBtn = document.createElement('button');
     collapseBtn.textContent = 'Collapse All';
-    styleButton(collapseBtn);
+    collapseBtn.className = 'btn btn-secondary hidden'; // Hidden for code view
 
     const copyBtn = document.createElement('button');
     copyBtn.textContent = 'Copy Formatted';
-    styleButton(copyBtn);
+    copyBtn.className = 'btn btn-primary';
     copyBtn.onclick = () => {
         const formatted = JSON.stringify(jsonData, null, 2);
         navigator.clipboard.writeText(formatted).then(() => {
@@ -77,25 +71,21 @@ if (jsonData) {
 
     const searchInput = document.createElement('input');
     searchInput.placeholder = 'Search...';
-    searchInput.style.padding = '6px 10px';
-    searchInput.style.borderRadius = '4px';
-    searchInput.style.border = '1px solid #dee2e6';
-    searchInput.style.width = '200px';
+    searchInput.className = 'search-input hidden'; // Hidden for code view
 
     toolbar.appendChild(rawBtn);
-    toolbar.appendChild(expandBtn);
-    toolbar.appendChild(collapseBtn);
+    // toolbar.appendChild(expandBtn); // Keep hidden/removed
+    // toolbar.appendChild(collapseBtn); // Keep hidden/removed
     toolbar.appendChild(copyBtn);
-    toolbar.appendChild(searchInput);
+    // toolbar.appendChild(searchInput); // Keep hidden/removed
 
     appContainer.appendChild(toolbar);
 
-    // Tree Container
+    // Tree Container (Now Code Container)
     const treeContainer = document.createElement('div');
     treeContainer.id = 'tree-root';
-    treeContainer.className = 'json-tree';
+    treeContainer.className = 'json-tree'; // Keeping class for compatibility, or change to json-code-container
     treeContainer.tabIndex = 0; // Make focusable
-    treeContainer.style.outline = 'none';
 
     // Handle Ctrl+A
     treeContainer.addEventListener('keydown', (e) => {
@@ -113,13 +103,7 @@ if (jsonData) {
 
     // Raw Container (Hidden)
     const rawContainer = document.createElement('pre');
-    rawContainer.style.display = 'none';
-    rawContainer.style.whiteSpace = 'pre-wrap';
-    rawContainer.style.wordBreak = 'break-all';
-    rawContainer.style.backgroundColor = '#fff';
-    rawContainer.style.padding = '10px';
-    rawContainer.style.border = '1px solid #dee2e6';
-    rawContainer.style.borderRadius = '4px';
+    rawContainer.className = 'raw-json hidden';
     rawContainer.textContent = JSON.stringify(jsonData, null, 2);
     appContainer.appendChild(rawContainer);
 
@@ -129,26 +113,15 @@ if (jsonData) {
         const renderer = new JsonRenderer(treeContainer);
         renderer.render(jsonData);
 
-        searchInput.addEventListener('input', (e) => renderer.filter(e.target.value));
-        expandBtn.onclick = () => renderer.expandAll();
-        collapseBtn.onclick = () => renderer.collapseAll();
-
         rawBtn.onclick = () => {
-            if (treeContainer.style.display !== 'none') {
-                treeContainer.style.display = 'none';
-                rawContainer.style.display = 'block';
-                rawBtn.textContent = 'Tree View';
-                // Hide other controls?
-                expandBtn.style.display = 'none';
-                collapseBtn.style.display = 'none';
-                searchInput.style.display = 'none';
-            } else {
-                treeContainer.style.display = 'block';
-                rawContainer.style.display = 'none';
+            if (treeContainer.classList.contains('hidden')) {
+                treeContainer.classList.remove('hidden');
+                rawContainer.classList.add('hidden');
                 rawBtn.textContent = 'Raw JSON';
-                expandBtn.style.display = 'inline-block';
-                collapseBtn.style.display = 'inline-block';
-                searchInput.style.display = 'inline-block';
+            } else {
+                treeContainer.classList.add('hidden');
+                rawContainer.classList.remove('hidden');
+                rawBtn.textContent = 'Formatted View';
             }
         };
 
@@ -156,16 +129,4 @@ if (jsonData) {
         console.error('JsonRenderer not loaded');
         treeContainer.textContent = 'Error: JsonRenderer library not loaded.';
     }
-}
-
-function styleButton(btn) {
-    btn.style.backgroundColor = '#0d6efd';
-    btn.style.color = 'white';
-    btn.style.border = 'none';
-    btn.style.padding = '6px 12px';
-    btn.style.borderRadius = '4px';
-    btn.style.cursor = 'pointer';
-    btn.style.fontWeight = '500';
-    btn.onmouseover = () => btn.style.backgroundColor = '#0b5ed7';
-    btn.onmouseout = () => btn.style.backgroundColor = '#0d6efd';
 }
